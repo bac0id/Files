@@ -260,6 +260,9 @@ namespace Files.App.Helpers
 			var path = ((IStorageItem)sender).Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
+			string user = FtpHelpers.GetFtpUser(path);
+			string password = FtpHelpers.GetFtpPassword(path);
+
 			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
 			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>

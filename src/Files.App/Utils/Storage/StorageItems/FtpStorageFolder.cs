@@ -355,6 +355,14 @@ namespace Files.App.Utils.Storage
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
+			string user = FtpHelpers.GetFtpUser(Path);
+			string password = FtpHelpers.GetFtpPassword(Path);
+			if (!string.IsNullOrWhiteSpace(user) && !string.IsNullOrWhiteSpace(password))
+			{
+				//Credentials = new StorageCredential(user, password);
+			}
+			Debug.WriteLine($"Path: {Path}");
+
 			var credentials = Credentials is not null ?
 				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);

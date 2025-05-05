@@ -71,6 +71,55 @@ namespace Files.App.Utils.Storage
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
+        public static string? GetFtpUser(string path)
+        {
+            if (!IsFtpPath(path))
+            {
+                return null;
+            }
+
+            path = path.Replace("\\", "/", StringComparison.Ordinal);
+            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+            var atIndex = path.IndexOf('@', schemaIndex);
+
+            if (atIndex == -1)
+            {
+                return null;
+            }
+
+            var credentialsPart = path.Substring(schemaIndex, atIndex - schemaIndex);
+            var parts = credentialsPart.Split(':', 2); // Split into max 2 parts: user and password
+
+            return parts[0]; // Username is always the first part
+        }
+
+        public static string? GetFtpPassword(string path)
+        {
+            if (!IsFtpPath(path))
+            {
+                return null;
+            }
+
+            path = path.Replace("\\", "/", StringComparison.Ordinal);
+            var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+            var atIndex = path.IndexOf('@', schemaIndex);
+
+            if (atIndex == -1)
+            {
+                return null;
+            }
+
+            var credentialsPart = path.Substring(schemaIndex, atIndex - schemaIndex);
+            var parts = credentialsPart.Split(':', 2); // Split into max 2 parts: user and password
+
+            if (parts.Length > 1)
+            {
+                return parts[1]; // Password is the second part if it exists
+            }
+
+            return null; // No password found
+        }
+
 		public static int GetRootIndex(string path)
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
