@@ -2,12 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</TargetFramework>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -65,10 +65,13 @@
         <PackageReference Include="ByteSize" />
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
         <PackageReference Include="CommunityToolkit.WinUI.Converters" />
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
@@ -86,11 +89,13 @@
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
+        <PackageReference Include="SharpZipLib" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" />
+        <PackageReference Include="UTF.Unknown" />
         <PackageReference Include="WinUIEx" />
         <PackageReference Include="Vanara.Windows.Extensions" />
         <PackageReference Include="Vanara.Windows.Shell" />

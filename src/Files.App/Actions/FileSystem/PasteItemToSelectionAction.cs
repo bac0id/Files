@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemToSelectionDescription".GetLocalizedResource();
+			=> Strings.PasteItemToSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 			if (!App.AppModel.IsPasteEnabled)
 				return false;
 
-			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
+			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults or ContentPageTypes.ReleaseNotes or ContentPageTypes.Settings)
 				return false;
 
 			if (!context.HasSelection)

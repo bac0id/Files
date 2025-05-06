@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</TargetFramework>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <UseWinUI>true</UseWinUI>
         <Nullable>enable</Nullable>
@@ -14,6 +14,7 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" />

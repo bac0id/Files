@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Settings
 		// Properties
 
 		public string Version
-			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
 
 		public string AppName
 			=> Package.Current.DisplayName;
@@ -72,12 +72,14 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/microsoft/WindowsAppSDK", "WindowsAppSDK"),
 				new ("https://github.com/microsoft/microsoft-ui-xaml", "WinUI 3"),
 				new ("https://github.com/microsoft/Win2D", "Win2D"),
-				new ("https://github.com/CommunityToolkit/WindowsCommunityToolkit", "Windows Community Toolkit 7.x"),
+				new ("https://github.com/CommunityToolkit/Windows", "Windows Community Toolkit"),
 				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
 				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
 				new ("https://github.com/PowerShell/MMI", "MMI"),
 				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
 				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),
+				new ("https://github.com/GihanSoft/NaturalStringComparer", "NaturalStringComparer"),
+				new ("https://github.com/dongle-the-gadget/GuidRVAGen", "Dongle.GuidRVAGen"),
 			];
 
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);

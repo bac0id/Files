@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "RunWithPowerShell".GetLocalizedResource();
+			=> Strings.RunWithPowerShell.GetLocalizedResource();
 
 		public string Description
-			=> "RunWithPowershellDescription".GetLocalizedResource();
+			=> Strings.RunWithPowershellDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE756");
@@ -31,7 +31,11 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			return Win32Helper.RunPowershellCommandAsync($"& '{context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}'", PowerShellExecutionOptions.None);
+			return Win32Helper.RunPowershellCommandAsync(
+				$"& '{context.ShellPage?.SlimContentPage?.SelectedItem?.ItemPath}'",
+				PowerShellExecutionOptions.None,
+				context.Folder?.ItemPath
+			);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

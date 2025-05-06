@@ -48,7 +48,9 @@ namespace Files.App.Data.Items
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
-					Path == "Home"
+					Path == "Home" ||
+					Path == "ReleaseNotes" ||
+					Path == "Settings"
 					? Text
 					: Path;
 			}
@@ -112,6 +114,8 @@ namespace Files.App.Data.Items
 				return null;
 			}
 		}
+
+		public bool PaddedItem => Section == SectionType.Home;
 
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);

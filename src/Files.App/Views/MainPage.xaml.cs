@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Controls;
-using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -19,6 +18,8 @@ using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
 using GridSplitter = Files.App.Controls.GridSplitter;
+using Files.App.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Views
 {
@@ -27,10 +28,9 @@ namespace Files.App.Views
 		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		public IUserSettingsService UserSettingsService { get; }
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-		public ICommandManager Commands { get; }
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 		public MainPageViewModel ViewModel { get; }
-		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
 		private bool keyReleased = true;
 
@@ -42,11 +42,9 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -57,16 +55,18 @@ namespace Files.App.Views
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+
+			ApplySidebarWidthState();
 		}
 
 		private async Task PromptForReviewAsync()
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
-				Title = "ReviewFiles".ToLocalized(),
-				Content = "ReviewFilesContent".ToLocalized(),
-				PrimaryButtonText = "Yes".ToLocalized(),
-				SecondaryButtonText = "No".ToLocalized()
+				Title = Strings.ReviewFiles.ToLocalized(),
+				Content = Strings.ReviewFilesContent.ToLocalized(),
+				PrimaryButtonText = Strings.Yes.ToLocalized(),
+				SecondaryButtonText = Strings.No.ToLocalized()
 			};
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -94,10 +94,10 @@ namespace Files.App.Views
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
-				Title = "FilesRunningAsAdmin".ToLocalized(),
-				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				Title = Strings.FilesRunningAsAdmin.ToLocalized(),
+				Content = Strings.FilesRunningAsAdminContent.ToLocalized(),
 				PrimaryButtonText = "Ok".ToLocalized(),
-				SecondaryButtonText = "DontShowAgain".ToLocalized()
+				SecondaryButtonText = Strings.DontShowAgain.ToLocalized()
 			};
 
 			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
@@ -121,6 +121,9 @@ namespace Files.App.Views
 			{
 				case nameof(IInfoPaneSettingsService.IsInfoPaneEnabled):
 					LoadPaneChanged();
+					break;
+				case nameof(IAppearanceSettingsService.SidebarWidth):
+					ApplySidebarWidthState();
 					break;
 			}
 		}
@@ -436,6 +439,16 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		private void ApplySidebarWidthState()
+		{
+			if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 360)
+				VisualStateManager.GoToState(this, "LargeSidebarWidthState", true);
+			else if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 280)
+				VisualStateManager.GoToState(this, "MediumSidebarWidthState", true);
+			else
+				VisualStateManager.GoToState(this, "SmallSidebarWidthState", true);
+		}
+
 		private void LoadPaneChanged()
 		{
 			try
@@ -493,6 +506,13 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(InputSystemCursor.Create(InfoPane.Position == PreviewPanePositions.Right ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
+
+		private void SettingsButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			// Suppress access key invocation if any dialog is open
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
 		}
 	}
 }

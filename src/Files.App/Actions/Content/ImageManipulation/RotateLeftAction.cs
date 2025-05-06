@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed partial class RotateLeftAction : BaseRotateAction
 	{
 		public override string Label
-			=> "RotateLeft".GetLocalizedResource();
+			=> Strings.RotateLeft.GetLocalizedResource();
 
 		public override string Description
-			=> "RotateLeftDescription".GetLocalizedResource();
+			=> Strings.RotateLeftDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.ImageRotate.ACW");
